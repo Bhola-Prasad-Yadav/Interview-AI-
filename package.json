@@ -2,7 +2,7 @@
   "name": "interview-ai-monorepo",
   "private": true,
   "scripts": {
-    "build": "npm --prefix Backend install && npm --prefix Frontend install && npm --prefix Frontend run build",
+    "build": "npm --prefix Backend install && npm --prefix Frontend install --include=dev && npm --prefix Frontend run build",
     "start": "npm --prefix Backend start"
   }
 }
