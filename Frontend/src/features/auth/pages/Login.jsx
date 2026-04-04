@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router"
-import { useAuth } from "../features/auth/hooks/useAuth"
+// import { useAuth } from "../features/auth/hooks/useAuth"
+import { useAuth } from "../hooks/useAuth"
 import "../style/app-header.scss"
 
 const AppHeader = ({ showHome = false }) => {
