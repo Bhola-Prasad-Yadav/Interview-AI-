@@ -1,11 +1,10 @@
 import React from "react"
-import { Link, useNavigate } from "react-router"
+import { Link } from "react-router"
 import { useAuth } from "../features/auth/hooks/useAuth"
-import "../style/app-header.scss"
+import "../../style/app-header.scss"   // ✅ FIXED PATH
 
-const AppHeader = ({ showHome = false, showAuthLinks = false }) => {
-    const { user, handleLogout } = useAuth()
-    const navigate = useNavigate()
+const AppHeader = ({ showHome = false }) => {
+    const { user } = useAuth()
 
     return (
         <header className="app-header">
@@ -25,29 +24,6 @@ const AppHeader = ({ showHome = false, showAuthLinks = false }) => {
                     <Link className="button secondary-button" to="/">
                         Home
                     </Link>
-                )}
-
-                {showAuthLinks && !user && (
-                    <>
-                        <Link className="button secondary-button" to="/login">
-                            Login
-                        </Link>
-                        <Link className="button primary-button" to="/register">
-                            Register
-                        </Link>
-                    </>
-                )}
-
-                {user && (
-                    <button
-                        className="button secondary-button"
-                        onClick={async () => {
-                            await handleLogout()
-                            navigate("/login")
-                        }}
-                    >
-                        Logout
-                    </button>
                 )}
             </div>
         </header>
