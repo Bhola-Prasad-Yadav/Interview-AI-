@@ -1,66 +1,33 @@
-import React,{useEffect, useState} from 'react'
-import { useNavigate, Link } from 'react-router'
-import "../auth.form.scss"
-import { useAuth } from '../hooks/useAuth'
-import AppHeader from '../../../components/AppHeader.jsx'
+import React from "react"
+import { Link } from "react-router"
+import { useAuth } from "../features/auth/hooks/useAuth"
+import "../style/app-header.scss"
 
-const Login = () => {
-
-    const { loading, handleLogin } = useAuth()
-    const navigate = useNavigate()
+const AppHeader = ({ showHome = false }) => {
     const { user } = useAuth()
 
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
-    const [ error, setError ] = useState("")
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError("")
-        try {
-            await handleLogin({email,password})
-            navigate('/')
-        } catch (err) {
-            setError(err?.response?.data?.message || "Login failed")
-        }
-    }
-
-    useEffect(() => {
-        if (user) {
-            navigate('/')
-        }
-    }, [ user, navigate ])
-
-    if(loading){
-        return (<main><h1>Loading.......</h1></main>)
-    }
-
-
     return (
-        <main>
-            <AppHeader showAuthLinks />
-            <div className="form-container">
-                <h1>Login</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            onChange={(e) => { setEmail(e.target.value) }}
-                            type="email" id="email" name='email' placeholder='Enter email address' />
+        <header className="app-header">
+            <Link className="app-header__brand" to={user ? "/" : "/login"}>
+                Interview AI
+            </Link>
+
+            <div className="app-header__actions">
+                {user && (
+                    <div className="app-header__identity">
+                        <span className="app-header__caption">Signed in as</span>
+                        <strong>{user.username || user.email}</strong>
                     </div>
-                    <div className="input-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            onChange={(e) => { setPassword(e.target.value) }}
-                            type="password" id="password" name='password' placeholder='Enter password' />
-                    </div>
-                    <button className='button primary-button' >Login</button>
-                </form>
-                {error && <p>{error}</p>}
-                <p>Don't have an account? <Link to={"/register"} >Register</Link> </p>
+                )}
+
+                {showHome && user && (
+                    <Link className="button secondary-button" to="/">
+                        Home
+                    </Link>
+                )}
             </div>
-        </main>
+        </header>
     )
 }
 
-export default Login
+export default AppHeader
